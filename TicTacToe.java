@@ -33,6 +33,8 @@ public class TicTacToe {
   // TODO: Add allowableIndex and allowable member variables
   // -------------------
   int[] boardIndexes;
+  int allowableIndex;
+  Transformer.Type[] allowable;
 
 
   /**
@@ -105,6 +107,16 @@ public class TicTacToe {
     for (int i=0; i<boardSize; i++) {
       board[i] = CellValue.EMPTY;
     }
+
+    allowableIndex = 0;
+
+    boardIndexes = new int[numRows * numColumns];
+    	for(int i = 0; i < boardIndexes.length; i++)
+		{
+			boardIndexes[i] = i;
+		}
+
+    allowable = Transformer.symmetricTransformations(numRows, numColumns);
 
     // -------------------
     // WRITE CODE HERE
@@ -555,10 +567,15 @@ public class TicTacToe {
    */
   public void reset() {
 
-    // -------------------
-    // IMPLEMENT THIS METHOD
-    // TODO: Reset the transformations back to its identity
-    // -------------------
+    allowableIndex = 0;
+
+    boardIndexes = new int[numRows * numColumns];
+    	for(int i = 0; i < boardIndexes.length; i++)
+		{
+			boardIndexes[i] = i;
+		}
+
+    allowable = Transformer.symmetricTransformations(numRows, numColumns);
 
   }
 
@@ -566,26 +583,33 @@ public class TicTacToe {
    * Can we rotate the board anymore?
    */
   public boolean hasNext() {
-
-    // -------------------
-    // IMPLEMENT THIS METHOD
-    // TODO: Do we have more allowable transformations
-    // -------------------
-
-    return false;
+    if(numRows == numColumns && allowableIndex == 8){
+				return false;
+		}
+		else if(allowableIndex == 4){
+				return false;
+		}
+		return true;
   }
 
   /**
    * Rotate the board to based on the next allowable rotation
    */
   public boolean next() {
+    Transformer.Type transformation = allowable[allowableIndex];
 
+    if(Transformer.transform(transformation, numRows, numColumns, boardIndexes) == true){
+		  allowableIndex++;
+      return true;
+    }
+    
     // -------------------
     // IMPLEMENT THIS METHOD
     // TODO: Transform the board to the next allowable transformation
     // -------------------
-
-    return false;
+    else{
+      return false;
+    }
   }
 
   /**

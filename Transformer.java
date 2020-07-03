@@ -29,25 +29,42 @@ public class Transformer {
     // -------------------
 
     // don't forget to delete this line of code!!!
-    return null;
+    Type allowableTransformations[];
+
+    if(numRows == numColumns)
+		{
+			allowableTransformations = new Type[]{Type.IDENTITY, Type.ROTATION, Type.ROTATION, Type.ROTATION, Type.HORIZONAL_SYMMETRY, Type.ROTATION, Type.ROTATION, Type.ROTATION};
+		}
+		else
+		{
+			allowableTransformations = new Type[]{Type.IDENTITY, Type.HORIZONAL_SYMMETRY, Type.VERTICAL_SYMMETRY, Type.HORIZONAL_SYMMETRY};
+		}
+
+    return allowableTransformations;
+    
   }
 
   /**
    * Applies the transformation specified as parameter
-   * to transformedBoard
+   * to board
    *
    * If the transformation was successful return true, if not return false;
    */
   public static boolean transform(Type transformation, int numRows, int numColumns, int[] board) {
 
-    // -------------------
-    // WRITE CODE HERE
-    // TODO: Implement this method
-    // HINT: See assignment details
-    // -------------------
+    switch(transformation) {
+    case IDENTITY:
+      return identity(numRows, numColumns, board);
+    case ROTATION:
+      return rotate90(numRows, numColumns, board);
+    case VERTICAL_SYMMETRY:
+      return verticalFlip(numRows, numColumns, board);
+    case HORIZONAL_SYMMETRY:
+      return horizontalFlip(numRows, numColumns, board);
+    default:
+      return false;
+    }
 
-    // don't forget to delete this line of code!!!
-    return false;
   }
 
   /**
@@ -67,14 +84,15 @@ public class Transformer {
    * If the transformation was successful return true, if not return false;
    */
   public static boolean identity(int numRows, int numColumns, int[] board) {
+    if(board == null){
+      return false;
+    }
 
-    // -------------------
-    // WRITE CODE HERE
-    // TODO: Implement this method
-    // -------------------
+    for(int i = 0; i < numRows*numColumns; i++){
+      board[i] = i;
+    }
 
-    // don't forget to delete this line of code!!!
-    return false;
+    return true;
   }
 
   /**
@@ -101,13 +119,21 @@ public class Transformer {
    */
   public static boolean horizontalFlip(int numRows, int numColumns, int[] board) {
 
-    // -------------------
-    // WRITE CODE HERE
-    // TODO: Implement this method
-    // -------------------
+    if(board == null){
+      return false;
+    }
 
-    // don't forget to delete this line of code!!!
-    return false;
+    int temp;
+
+    for(int i = 0; i < numRows / 2; i++){
+      for(int j = 0; j < numColumns; j++){
+        temp = board[numColumns * (numRows - i - 1) + j];
+				board[numColumns * (numRows - i - 1) + j] = board[numColumns * i + j];
+				board[numColumns * i + j] = temp;
+      }
+    }
+    
+    return true;
   }
 
  /**
@@ -134,13 +160,21 @@ public class Transformer {
    */
   public static boolean verticalFlip(int numRows, int numColumns, int[] board) {
 
-    // -------------------
-    // WRITE CODE HERE
-    // TODO: Implement this method
-    // -------------------
+    if(board == null){
+      return false;
+    }
 
-    // don't forget to delete this line of code!!!
-    return false;
+    int temp;
+
+    for(int i = 0; i < numColumns / 2; i++){
+      for(int j = 0; j < numRows; j++){
+        temp = board[(j*numColumns) + numColumns - i - 1];
+        board[(j*numColumns) + numColumns - i - 1] = board[(j*numColumns) + i];
+				board[(j*numColumns) + i] = temp;
+      }
+    }
+    
+    return true;
   }
 
  /**
@@ -169,13 +203,26 @@ public class Transformer {
    */
   public static boolean rotate90(int numRows, int numColumns, int[] board) {
 
-    // -------------------
-    // WRITE CODE HERE
-    // TODO: Implement this method
-    // -------------------
+    if(board == null){
+      return false;
+    }
 
-    // don't forget to delete this line of code!!!
-    return false;
+    int[] temp = new int[numRows * numColumns];
+		for(int i = 0; i < board.length; i++)
+		{
+			temp[i] = board[i];
+		}
+		
+		for(int i = 0; i < board.length; i++)
+		{
+			board[rotation(numColumns, i % numColumns, numColumns - i / numColumns - 1)] = temp[i];
+		}
+
+    return true;
+  }
+
+  private static int rotation(int numColumns, int row, int column){
+    return ((row*numColumns) + column);
   }
 
   private static void test(int numRows, int numColumns) {
