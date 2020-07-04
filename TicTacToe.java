@@ -395,7 +395,7 @@ public class TicTacToe {
         int index = i*numColumns + j;
 
         b.append(" ");
-        b.append(board[index]);
+        b.append(board[boardIndexes[index]]);
         b.append(" ");
 
         if (j < maxColumnsIndex) {
