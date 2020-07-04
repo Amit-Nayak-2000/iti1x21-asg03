@@ -84,7 +84,7 @@ public class Transformer {
    * If the transformation was successful return true, if not return false;
    */
   public static boolean identity(int numRows, int numColumns, int[] board) {
-    if(board == null){
+    if(board == null || numRows*numColumns != board.length){
       return false;
     }
 
@@ -119,7 +119,7 @@ public class Transformer {
    */
   public static boolean horizontalFlip(int numRows, int numColumns, int[] board) {
 
-    if(board == null){
+    if(board == null || numRows*numColumns != board.length){
       return false;
     }
 
@@ -160,7 +160,7 @@ public class Transformer {
    */
   public static boolean verticalFlip(int numRows, int numColumns, int[] board) {
 
-    if(board == null){
+    if(board == null || numRows*numColumns != board.length){
       return false;
     }
 
@@ -203,7 +203,7 @@ public class Transformer {
    */
   public static boolean rotate90(int numRows, int numColumns, int[] board) {
 
-    if(board == null){
+    if(board == null || numRows*numColumns != board.length || numColumns != numRows){
       return false;
     }
 
