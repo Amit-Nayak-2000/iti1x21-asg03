@@ -543,7 +543,7 @@ public class TicTacToe {
       }
 		}
 		
-    //reset();
+    reset();
 
     return (normalEquals || symmetricEquals);
   }
