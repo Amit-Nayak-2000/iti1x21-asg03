@@ -521,13 +521,31 @@ public class TicTacToe {
       return false;
     }
 
+    boolean normalEquals = true;
+    boolean symmetricEquals = true;
     for (int i=0; i<board.length; i++) {
       if (board[i] != compareTo.board[i]) {
-        return false;
+        normalEquals = false;
       }
     }
 
-    return true;
+    reset();
+		while(hasNext()){
+      next();
+      symmetricEquals = true;
+			for(int i = 0; i < board.length; i++){
+				if(board[boardIndexes[i]] != compareTo.board[i]){
+					symmetricEquals = false;
+				}
+			}
+      if(symmetricEquals){
+        break;
+      }
+		}
+		
+    //reset();
+
+    return (normalEquals || symmetricEquals);
   }
 
   /**
