@@ -529,7 +529,7 @@ public class TicTacToe {
       }
     }
 
-    reset();
+    // reset();
 		while(hasNext()){
       next();
       symmetricEquals = true;
@@ -541,6 +541,7 @@ public class TicTacToe {
       if(symmetricEquals){
         break;
       }
+
 		}
 		
     reset();
