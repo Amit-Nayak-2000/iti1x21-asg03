@@ -529,16 +529,17 @@ public class TicTacToe {
       next();
       
 			for(int i = 0; i < board.length; i++){
+
         //checks every element in the board.
 				if(board[boardIndexes[i]] != compareTo.board[i]){
 					uniqueEquals = false;
 				}
 
 			}
-      
+
+      //if it is identical stop iterating through transformations.
       if(uniqueEquals){
-        reset();
-        return uniqueEquals;
+        break;
       }
 		}
 

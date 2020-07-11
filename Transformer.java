@@ -113,6 +113,7 @@ public class Transformer {
       return false;
     }
 
+    //used for swapping.
     int temporary;
 
     //iterates through the board and "swaps" elements for a horizontal flip.
@@ -159,6 +160,7 @@ public class Transformer {
       return false;
     }
 
+    //used for swapping.
     int temporary;
 
 
@@ -208,22 +210,23 @@ public class Transformer {
       return false;
     }
 
-    int[] temporary = new int[numRows * numColumns];
+    //used for swapping.
+    int[] temporary = new int[board.length];
 
 		for(int i = 0; i < board.length; i++){
 			temporary[i] = board[i];
 		}
 		
-    int row, column, rotation;
+    int row, column, applyRotation;
     //shifts all the elements to their 90 degree position based on their row/column.
 		for(int i = 0; i < board.length; i++){
       row = i%numColumns;
 
       column = numColumns-i / numColumns-1;
 
-      rotation = numColumns*row + column;
+      applyRotation = numColumns*row + column;
 
-			board[rotation] = temporary[i];
+			board[applyRotation] = temporary[i];
 		}
 
     return true;
