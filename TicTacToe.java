@@ -492,16 +492,7 @@ public class TicTacToe {
    * @return True if they represent the same state
    */
   public boolean equals(Object obj) {
-
-    // -------------------
-    // EDIT THIS METHOD
-    // TODO: Add support to display transformed version of game
-    //       Update method as you see it, use the tests to ensure
-    //       you haven't broken anything
-    // HINT: Many lines of code need to change
-    // HINT: Use the reset() and next() to compare symmetric versions
-    // -------------------
-
+    //check if null
     if (obj == null) {
       return false;
     }
@@ -510,7 +501,9 @@ public class TicTacToe {
       return false;
     }
 
+    //above checks if its an instance of TicTacToe, if it is then it is cast into the object.
     TicTacToe compareTo = (TicTacToe)obj;
+    //Comparing board properties.
     if (numRows != compareTo.numRows) {
       return false;
     } else if (numColumns != compareTo.numColumns) {
@@ -521,30 +514,35 @@ public class TicTacToe {
       return false;
     }
 
-    // boolean normalEquals = true;
     boolean uniqueEquals = true;
-    // for (int i=0; i<board.length; i++) {
-    //   if (board[i] != compareTo.valueAt(i+1)) {
-    //     normalEquals = false;
-    //   }
-    // }
 
+    //resets to start at the first transformation (identity)
+    //this will allow to check if the board is equal normally
+    //if the board isnt identical, the program keeps iterating through the transformations untill there arent any left.
+    //compares the indexes of board indexes to compareTo board.
+    //always reset after finding a match.
     reset();
 		while(hasNext()){
-      next();
+
+      //assumes they are equal unless found otherwise.
       uniqueEquals = true;
+      next();
+      
 			for(int i = 0; i < board.length; i++){
+        //checks every element in the board.
 				if(board[boardIndexes[i]] != compareTo.board[i]){
 					uniqueEquals = false;
 				}
+
 			}
+      
       if(uniqueEquals){
         reset();
-        return true;
+        return uniqueEquals;
       }
 		}
-    reset();
 
+    reset();
     return uniqueEquals;
   }
 
@@ -584,6 +582,7 @@ public class TicTacToe {
    * Reset the board back to it's original position
    */
   public void reset() {
+    //reset the allowable index and populates boardIndexes with the natural index values.
     allowableIndex = 0;
     for(int i = 0; i < boardIndexes.length; i++){
 			boardIndexes[i] = i;
@@ -594,9 +593,11 @@ public class TicTacToe {
    * Can we rotate the board anymore?
    */
   public boolean hasNext() {
+    //If it is square It can have upto 8 transformations.
     if(numRows == numColumns && allowableIndex < 8){
 				return true;
 		}
+    // if it is not square it can have upto 4 transformations.
 		else if(allowableIndex < 4){
 				return true;
 		}
@@ -607,8 +608,9 @@ public class TicTacToe {
    * Rotate the board to based on the next allowable rotation
    */
   public boolean next() {
+    //Get the transformation for the board.
     Transformer.Type transformation = allowable[allowableIndex];
-
+    //If the transformation is sucessful, increment the allowable index for the next transformation.
     if(Transformer.transform(transformation, numRows, numColumns, boardIndexes) == true){
       allowableIndex++;
       return true;
@@ -616,12 +618,6 @@ public class TicTacToe {
     else{
       return false;
     }
-    
-    // -------------------
-    // IMPLEMENT THIS METHOD
-    // TODO: Transform the board to the next allowable transformation
-    // -------------------
-    
   }
 
   /**
