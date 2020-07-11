@@ -20,23 +20,14 @@ public class Transformer {
    * @return All rotations for a symmetric board
    */
   public static Type[] symmetricTransformations(int numRows, int numColumns) {
-
-    // -------------------
-    // IMPLEMENT THIS METHOD
-    // TODO: Based on the dimensions there are different allowable transformations
-    // HINT: This method will help you determine the `allowable` tranformations
-    //       in your TicTacToe game
-    // -------------------
-
-    // don't forget to delete this line of code!!!
     Type allowableTransformations[];
 
-    if(numRows == numColumns)
-		{
+    //Square boards have the 8 transformations described in the Assignment Instructions.
+    if(numRows == numColumns){
 			allowableTransformations = new Type[]{Type.IDENTITY, Type.ROTATION, Type.ROTATION, Type.ROTATION, Type.HORIZONAL_SYMMETRY, Type.ROTATION, Type.ROTATION, Type.ROTATION};
 		}
-		else
-		{
+    //All other boards have 4 transformations
+		else{
 			allowableTransformations = new Type[]{Type.IDENTITY, Type.HORIZONAL_SYMMETRY, Type.VERTICAL_SYMMETRY, Type.HORIZONAL_SYMMETRY};
 		}
 
@@ -51,7 +42,6 @@ public class Transformer {
    * If the transformation was successful return true, if not return false;
    */
   public static boolean transform(Type transformation, int numRows, int numColumns, int[] board) {
-
     switch(transformation) {
     case IDENTITY:
       return identity(numRows, numColumns, board);
@@ -64,7 +54,6 @@ public class Transformer {
     default:
       return false;
     }
-
   }
 
   /**
@@ -84,10 +73,11 @@ public class Transformer {
    * If the transformation was successful return true, if not return false;
    */
   public static boolean identity(int numRows, int numColumns, int[] board) {
-    if(board == null || numRows*numColumns != board.length){
+    if(numRows*numColumns != board.length){
       return false;
     }
 
+    //sets the board to all of its natural indexes
     for(int i = 0; i < board.length; i++){
       board[i] = i;
     }
@@ -119,17 +109,22 @@ public class Transformer {
    */
   public static boolean horizontalFlip(int numRows, int numColumns, int[] board) {
 
-    if(board == null || numRows*numColumns != board.length){
+    if(numRows*numColumns != board.length){
       return false;
     }
 
-    int temp;
+    int temporary;
 
+    //iterates through the board and "swaps" elements for a horizontal flip.
+    //only need to do the first for loop by the number of rows / 2 as its a horizontal flip.
     for(int i = 0; i < numRows / 2; i++){
       for(int j = 0; j < numColumns; j++){
-        temp = board[numColumns * (numRows - i - 1) + j];
-				board[numColumns * (numRows - i - 1) + j] = board[numColumns * i + j];
-				board[numColumns * i + j] = temp;
+
+        temporary = board[numColumns*(numRows - i - 1) + j];
+
+				board[numColumns*(numRows - i - 1) + j] = board[i*numColumns + j];
+
+				board[i*numColumns + j] = temporary;
       }
     }
     
@@ -160,17 +155,23 @@ public class Transformer {
    */
   public static boolean verticalFlip(int numRows, int numColumns, int[] board) {
 
-    if(board == null || numRows*numColumns != board.length){
+    if(numRows*numColumns != board.length){
       return false;
     }
 
-    int temp;
+    int temporary;
 
+
+    //iterates through the board and "swaps" elements for a vertical flip.
+    //only need to do the first for loop by the number of columns / 2 as its a vertical flip.
     for(int i = 0; i < numColumns / 2; i++){
       for(int j = 0; j < numRows; j++){
-        temp = board[(j*numColumns) + numColumns - i - 1];
-        board[(j*numColumns) + numColumns - i - 1] = board[(j*numColumns) + i];
-				board[(j*numColumns) + i] = temp;
+
+        temporary = board[(j*numColumns)+numColumns-i-1];
+
+        board[(j*numColumns)+numColumns-i-1] = board[(j*numColumns)+i];
+
+				board[(j*numColumns)+i] = temporary;
       }
     }
     
@@ -203,26 +204,29 @@ public class Transformer {
    */
   public static boolean rotate90(int numRows, int numColumns, int[] board) {
 
-    if(board == null || numRows*numColumns != board.length || numColumns != numRows){
+    if(numRows*numColumns != board.length || numColumns != numRows){
       return false;
     }
 
-    int[] temp = new int[numRows * numColumns];
-		for(int i = 0; i < board.length; i++)
-		{
-			temp[i] = board[i];
+    int[] temporary = new int[numRows * numColumns];
+
+		for(int i = 0; i < board.length; i++){
+			temporary[i] = board[i];
 		}
 		
-		for(int i = 0; i < board.length; i++)
-		{
-			board[rotation(numColumns, i % numColumns, numColumns - i / numColumns - 1)] = temp[i];
+    int row, column, rotation;
+    //shifts all the elements to their 90 degree position based on their row/column.
+		for(int i = 0; i < board.length; i++){
+      row = i%numColumns;
+
+      column = numColumns-i / numColumns-1;
+
+      rotation = numColumns*row + column;
+
+			board[rotation] = temporary[i];
 		}
 
     return true;
-  }
-
-  private static int rotation(int numColumns, int row, int column){
-    return ((row*numColumns) + column);
   }
 
   private static void test(int numRows, int numColumns) {
