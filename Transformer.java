@@ -88,7 +88,7 @@ public class Transformer {
       return false;
     }
 
-    for(int i = 0; i < numRows*numColumns; i++){
+    for(int i = 0; i < board.length; i++){
       board[i] = i;
     }
 

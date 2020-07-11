@@ -521,32 +521,31 @@ public class TicTacToe {
       return false;
     }
 
-    boolean normalEquals = true;
-    boolean symmetricEquals = true;
-    for (int i=0; i<board.length; i++) {
-      if (board[i] != compareTo.board[i]) {
-        normalEquals = false;
-      }
-    }
+    // boolean normalEquals = true;
+    boolean uniqueEquals = true;
+    // for (int i=0; i<board.length; i++) {
+    //   if (board[i] != compareTo.valueAt(i+1)) {
+    //     normalEquals = false;
+    //   }
+    // }
 
-    // reset();
+    reset();
 		while(hasNext()){
       next();
-      symmetricEquals = true;
+      uniqueEquals = true;
 			for(int i = 0; i < board.length; i++){
 				if(board[boardIndexes[i]] != compareTo.board[i]){
-					symmetricEquals = false;
+					uniqueEquals = false;
 				}
 			}
-      if(symmetricEquals){
-        break;
+      if(uniqueEquals){
+        reset();
+        return true;
       }
-
 		}
-		
     reset();
 
-    return (normalEquals || symmetricEquals);
+    return uniqueEquals;
   }
 
   /**
@@ -585,30 +584,23 @@ public class TicTacToe {
    * Reset the board back to it's original position
    */
   public void reset() {
-
     allowableIndex = 0;
-
-    boardIndexes = new int[numRows * numColumns];
-    	for(int i = 0; i < boardIndexes.length; i++)
-		{
+    for(int i = 0; i < boardIndexes.length; i++){
 			boardIndexes[i] = i;
 		}
-
-    allowable = Transformer.symmetricTransformations(numRows, numColumns);
-
   }
 
   /**
    * Can we rotate the board anymore?
    */
   public boolean hasNext() {
-    if(numRows == numColumns && allowableIndex == 8){
-				return false;
+    if(numRows == numColumns && allowableIndex < 8){
+				return true;
 		}
-		else if(allowableIndex == 4){
-				return false;
+		else if(allowableIndex < 4){
+				return true;
 		}
-		return true;
+		return false;
   }
 
   /**
@@ -618,17 +610,18 @@ public class TicTacToe {
     Transformer.Type transformation = allowable[allowableIndex];
 
     if(Transformer.transform(transformation, numRows, numColumns, boardIndexes) == true){
-		  allowableIndex++;
+      allowableIndex++;
       return true;
+    }
+    else{
+      return false;
     }
     
     // -------------------
     // IMPLEMENT THIS METHOD
     // TODO: Transform the board to the next allowable transformation
     // -------------------
-    else{
-      return false;
-    }
+    
   }
 
   /**
